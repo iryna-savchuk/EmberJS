@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Ember-based Users List</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    </head>
+    <body>
+
+        <script type="text/x-handlebars" id="users">
+          <div class="container-fluid">
+            <div class="row-fluid">
+              <div class="span4"> 
+                <table class='table'>
+                  <thead>
+                    <tr> 
+                    <th>Login</th> <th>Full Name</th> <th>Age</th> <th>Action</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {{#each user in model}}
+                      <tr>
+                        <td>{{user.login}} </td>
+                        <td>{{user.firstname}} {{user.lastname}}</td>
+                        <td>{{user.age}} </td> 
+                        <td> {{#link-to 'user' user.id}}Edit{{/link-to}} / <a href="#"{{action 'deleteUser'  user.id}}>Remove</a></td>
+                      </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+                {{#link-to 'add'}}Add New User{{/link-to}}
+              </div>
+
+              <div class="span6">
+                {{outlet}}
+              </div>
+            </div>
+          </div>
+        </script>
+
+        <script type="text/x-handlebars" id="user">
+            {{#if isEditing}}
+            {{partial 'user/edit'}}
+            <button {{action 'doneEditing'}}>Save</button>
+            {{else}}
+            <h3>User Details:</h3>
+            <hr>
+            <h4>Login: {{login}}</h4>
+            <h4>First Name: {{firstname}}</h4>
+            <h4>Last Name: {{lastname}}</h4>
+            <h4>Age: {{age}}</h4>
+            <hr>
+            <button {{action 'editUser'}}>Edit</button>
+            {{/if}}
+        </script>
+
+        <script type="text/x-handlebars" id="user/_edit">   
+            <table>
+                <tr><td>Login: </td> <td> {{input type="text" value=login}} </td></tr>
+                <tr> <td>First Name: </td> <td> {{input type="text" value=firstname}}</td></tr>
+                <tr><td>Last Name:</td> <td> {{input type="text" value=lastname}} </td></tr>
+                <tr><td>Age: </td> <td> {{input type="text" value=age}}</td></tr>
+            </table>
+        </script>
+
+        <script type="text/x-handlebars" id="add"> 
+            <h3>Adding New User</h3>
+            <hr>
+            {{partial 'user/edit'}}
+            <hr>
+            <button {{action 'addUser'}}> Add </button>
+        </script>
+
+        <script src="js/libs/jquery-1.10.2.js"></script>
+        <script src="js/libs/handlebars-v1.3.0.js"></script>
+        <script src="js/libs/ember-1.8.1.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
+        <script src="js/libs/ember-data.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/models/user_model.js"></script>
+    </body>
+</html>
